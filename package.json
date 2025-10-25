@@ -1,18 +1,19 @@
 {
-  "name": "light-grid",
-  "version": "1.0.0",
+  "name": "vortexgrid",
+  "version": "1.1.1",
   "description": "A modern, customizable, cross-framework data grid library for React, Angular, Vue, and more. Features sorting, pagination, drag-and-drop, and persistent order.",
   "author": "Rajib Gupta",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Rajib-Gupta/light-grid.git"
+    "url": "https://github.com/Rajib-Gupta/grid-kit.git"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "grid",
     "datatable",
     "react",
-    "angular",
     "vue",
     "drag-and-drop",
     "pagination",
@@ -29,5 +30,9 @@
     "@types/angular": "^1.8.9",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   }
 }

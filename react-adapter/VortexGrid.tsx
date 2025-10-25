@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { type GridColumn } from "../core/Grid";
 
-export interface LightGridProps {
+export interface VortexGridProps {
   /** Pagination color (default: #1976d2) */
   paginationColor?: string;
   /** Pagination shape: 'pill' | 'square' (default: 'pill') */
@@ -31,7 +31,7 @@ export interface LightGridProps {
   onRowClick?: (row: any, idx: number) => void;
 }
 
-export const LightGrid: React.FC<LightGridProps> = ({
+export const VortexGrid: React.FC<VortexGridProps> = ({
   columns,
   rowData,
   pagination,
@@ -51,8 +51,8 @@ export const LightGrid: React.FC<LightGridProps> = ({
   paginationRenderer,
 }) => {
   const [selectedRowIdx, setSelectedRowIdx] = useState<number | null>(null);
-  const STORAGE_KEY_ROW_ORDER = "lightgrid-row-order";
-  const COL_STORAGE_KEY = "lightgrid-column-order";
+  const STORAGE_KEY_ROW_ORDER = "gridkit-row-order";
+  const COL_STORAGE_KEY = "gridkit-column-order";
   const effectiveToolbarBackgroundColor = toolbarBackgroundColor ?? [
     "#0078efff",
     "#177c12ff",
@@ -112,8 +112,7 @@ export const LightGrid: React.FC<LightGridProps> = ({
   const [draggedColIdx, setDraggedColIdx] = useState<number | null>(null);
   const [currentPageSize, setCurrentPageSize] = useState<number>(
     pageSize || rowData.length
-  ); // setCurrentPageSize is unused and can be removed if not needed
-
+  ); 
   // Sync columnsOrder with initialColumnsOrder when columns change or after refresh
   useEffect(() => {
     setColumnsOrder(initialColumnsOrder);

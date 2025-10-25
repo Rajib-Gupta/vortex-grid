@@ -20,7 +20,7 @@ import { defineComponent, ref, watch } from 'vue';
 import { Grid, GridOptions, GridColumn } from '../core/Grid';
 
 export default defineComponent({
-  name: 'LightGrid',
+  name: 'VortexGrid',
   props: {
     columns: {
       type: Array as () => GridColumn[],

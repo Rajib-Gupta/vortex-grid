@@ -7,11 +7,11 @@ export interface GridColumn {
 }
 
 @Component({
-  selector: 'light-grid',
-  templateUrl: './light-grid.component.html',
-  styleUrls: ['./light-grid.component.css']
+  selector: 'vortex-grid',
+  templateUrl: './vortex-grid.component.html',
+  styleUrls: ['./vortex-grid.component.css']
 })
-export class LightGridComponent {
+export class VortexGridComponent {
   @Input() columns: GridColumn[] = [];
   @Input() rowData: any[] = [];
   @Input() pagination: boolean = false;
