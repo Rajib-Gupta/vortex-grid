@@ -1,4 +1,25 @@
 {
+  "name": "light-grid",
+  "version": "1.0.0",
+  "description": "A modern, customizable, cross-framework data grid library for React, Angular, Vue, and more. Features sorting, pagination, drag-and-drop, and persistent order.",
+  "author": "Rajib Gupta",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rajib-Gupta/light-grid.git"
+  },
+  "keywords": [
+    "grid",
+    "datatable",
+    "react",
+    "angular",
+    "vue",
+    "drag-and-drop",
+    "pagination",
+    "sortable",
+    "customizable",
+    "library"
+  ],
   "dependencies": {
     "@angular/core": "^19.2.15",
     "react": "^19.2.0",
