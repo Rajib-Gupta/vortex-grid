@@ -1,4 +1,4 @@
-import { VortexGrid } from "vortexgrid";
+import { VortexGrid } from "vortexgrid/react-adapter/VortexGrid";
 import "./App.css";
 import { mockColumns, mockRowData } from "./data/table.mock";
 
