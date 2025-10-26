@@ -103,9 +103,7 @@ Use in your template:
    [rowData]="data"
    [pagination]="true"
    [pageSize]="10"
-   [toolbarOptions]="['save', 'reset', 'export', 'filter']"
-   [toolbarBackgroundColor]="['#0078efff', '#177c12ff', '#dd3c10ff']"
-   [toolbarTextColor]="['#fff', '#fff', '#fff']"
+   [toolbarOptions]="toolbarOptions"
    [selectedRowIdxColor]="'#ffe082'"
    (rowClick)="onRowClicked($event)"
    [enableDragDrop]="true"
@@ -129,6 +127,70 @@ data = [
    { id: 1, name: 'Alice', email: 'alice@example.com' },
    { id: 2, name: 'Bob', email: 'bob@example.com' }
 ];
+
+toolbarOptions = [
+   {
+      name: 'save',
+      icon: 'Save Order',
+      style: {
+         padding: '8px 16px',
+         borderRadius: '4px',
+         border: '1px solid #0078efff',
+         color: '#fff',
+         background: '#0078efff',
+         fontWeight: 500
+      },
+      onClick: () => {
+         console.log('Save clicked');
+      }
+   },
+   {
+      name: 'reset',
+      icon: 'Reset Order',
+      style: {
+         padding: '8px 16px',
+         borderRadius: '4px',
+         border: '1px solid #177c12ff',
+         color: '#fff',
+         background: '#177c12ff',
+         fontWeight: 500
+      },
+      onClick: () => {
+         console.log('Reset clicked');
+      }
+   },
+   {
+      name: 'export',
+      icon: 'Export CSV',
+      style: {
+         padding: '8px 16px',
+         borderRadius: '4px',
+         border: '1px solid #dd3c10ff',
+         color: '#fff',
+         background: '#dd3c10ff',
+         fontWeight: 500
+      },
+      onClick: () => {
+         console.log('Export clicked');
+      }
+   },
+   {
+      name: 'filter',
+      icon: 'Filter',
+      style: {
+         padding: '8px 16px',
+         borderRadius: '4px',
+         border: '1px solid #555555ff',
+         color: '#fff',
+         background: '#555555ff',
+         fontWeight: 500
+      },
+      onClick: () => {
+         console.log('Filter clicked');
+      }
+   }
+];
+
 onRowClicked(event: { row: any, idx: number }) {
    alert(`Clicked: ${event.row.name}`);
 }
@@ -144,9 +206,7 @@ onRowClicked(event: { row: any, idx: number }) {
 | rowData                  | Array<any>                                | Required               | Data rows |
 | pagination               | boolean                                   | false                  | Enable pagination |
 | pageSize                 | number                                    | rowData.length         | Rows per page |
-| toolbarOptions           | Array<'save'|'reset'|'export'|'filter'>   | ['save','reset','export'] | Toolbar buttons |
-| toolbarBackgroundColor   | string[]                                  | ['#0078efff', ...]     | Toolbar button colors |
-| toolbarTextColor         | string[]                                  | ['#fff', ...]          | Toolbar text colors |
+| toolbarOptions           | Array<{name:string, icon?:string, style?:any, onClick?:() => void}> | [{name:'save',...},...] | Toolbar buttons with custom config |
 | selectedRowIdxColor      | string                                    | '#c8e6c9'              | Selected row color |
 | enableDragDrop           | boolean                                   | true                   | Enable drag-and-drop |
 | paginationColor          | string                                    | '#1976d2'              | Pagination button color |
@@ -154,6 +214,8 @@ onRowClicked(event: { row: any, idx: number }) {
 | paginationSize           | 'sm' | 'md' | 'lg'                        | 'md'                   | Pagination button size |
 | style                    | object                                    |                        | Custom styles |
 | class                    | string                                    |                        | Custom CSS class |
+
+*Note: `toolbarBackgroundColor` and `toolbarTextColor` are deprecated. Use `style` property in `toolbarOptions` for custom styling.*
 
 ---
 

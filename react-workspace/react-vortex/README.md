@@ -1,4 +1,3 @@
-
 # vortexgrid-react
 
 VortexGrid is a modern, highly customizable React data grid component designed for advanced data display and manipulation. It supports sorting, pagination, drag-and-drop, persistent order, and a flexible toolbar, making it ideal for dashboards, admin panels, and any data-driven UI.
@@ -33,69 +32,118 @@ npm install vortexgrid-react
 Import and use the `VortexGrid` component:
 
 ```tsx
-import { VortexGrid } from 'vortexgrid/react-vortex/VortexGrid';
+import { VortexGrid } from "vortexgrid/react-vortex/VortexGrid";
 
 const columns = [
-  { field: 'id', headerName: 'ID', sortable: true },
-  { field: 'name', headerName: 'Name', sortable: true },
-  { field: 'email', headerName: 'Email' }
+  { field: "id", headerName: "ID", sortable: true },
+  { field: "name", headerName: "Name", sortable: true },
+  { field: "email", headerName: "Email" },
 ];
 const data = [
-  { id: 1, name: 'Alice', email: 'alice@example.com' },
-  { id: 2, name: 'Bob', email: 'bob@example.com' }
+  { id: 1, name: "Alice", email: "alice@example.com" },
+  { id: 2, name: "Bob", email: "bob@example.com" },
 ];
 
 <VortexGridReact
   columns={columns}
   rowData={data}
-  pagination
+  pagination={true}
   pageSize={10}
-  toolbarOptions={['save', 'reset', 'export', 'filter']}
-  toolbarBackgroundColor={['#0078efff', '#177c12ff', '#dd3c10ff']}
-  toolbarTextColor={['#fff', '#fff', '#fff']}
+  toolbarOptions={[
+    {
+      name: "filter",
+      icon: "Filter",
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: "1px solid #555555ff",
+        color: "#fff",
+        background: "#555555ff",
+        fontWeight: 500,
+      },
+      onClick: () => {
+        console.log("Filter clicked");
+      },
+    },
+    {
+      name: "save",
+      icon: <span>Save</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #0078efff`,
+        color: "#fff",
+        background: "#0078efff",
+        fontWeight: 500,
+      },
+      onClick: () => {
+        console.log("Save clicked");
+      },
+
+    },
+    {
+      name: "reset",
+      icon: <span>Reset</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #177c12ff`,
+        color: "#fff",
+        background: "#177c12ff",
+        fontWeight: 500,
+      },
+      onClick: () => {
+        console.log("Reset clicked");
+      },
+    },
+    {
+      name: "export",
+      icon: <span>Export</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #dd3c10ff`,
+        color: "#fff",
+        background: "#dd3c10ff",
+        fontWeight: 500,
+      },
+      onClick: () => {
+        console.log("Export clicked");
+      },
+    },
+  ]}
   selectedRowIdxColor="#ffe082"
-  onRowClick={(row, idx) => alert(`Clicked: ${row.name}`)}
+  onRowClick={(row, idx) => console.log("Clicked:", row, idx)}
   enableDragDrop={true}
   paginationColor="#388e3c"
   paginationShape="pill"
   paginationSize="md"
-  paginationRenderer={({ page, pageCount, setPage }) => (
-    <div>
-      <button onClick={() => setPage(page - 1)} disabled={page <= 1}>Prev</button>
-      {Array.from({ length: pageCount }, (_, i) => (
-        <button key={i + 1} onClick={() => setPage(i + 1)}>{i + 1}</button>
-      ))}
-      <button onClick={() => setPage(page + 1)} disabled={page >= pageCount}>Next</button>
-    </div>
-  )}
-  style={{ backgroundColor: '#f9f9f9', color: '#333', fontFamily: 'Arial, sans-serif' }}
-  className="my-custom-grid"
-/>
+/>;
 ```
 
 ---
 
 ## Props & Configuration
 
-| Prop                    | Type                                      | Default                | Description |
-|-------------------------|-------------------------------------------|------------------------|-------------|
-| columns                 | Array<{ field, headerName, sortable? }>   | Required               | Column definitions |
-| rowData                 | Array<any>                                | Required               | Data rows |
-| pagination              | boolean                                   | false                  | Enable pagination |
-| pageSize                | number                                    | rowData.length         | Rows per page |
-| toolbarOptions          | Array<'save'|'reset'|'export'|'filter'>   | ['save','reset','export'] | Toolbar buttons |
-| toolbarBackgroundColor  | string[]                                  | ['#0078efff', ...]     | Toolbar button colors |
-| toolbarTextColor        | string[]                                  | ['#fff', ...]          | Toolbar text colors |
-| selectedRowIdxColor     | string                                    | '#c8e6c9'              | Selected row color |
-| onRowClick              | (row, idx) => void                        |                        | Row click handler |
-| enableDragDrop          | boolean                                   | true                   | Enable drag-and-drop |
-| paginationColor         | string                                    | '#1976d2'              | Pagination button color |
-| paginationShape         | 'pill' | 'square'                         | 'pill'                 | Pagination button shape |
-| paginationSize          | 'sm' | 'md' | 'lg'                        | 'md'                   | Pagination button size |
-| paginationRenderer      | Function                                  |                        | Custom pagination UI |
-| style                   | React.CSSProperties                       |                        | Custom styles |
-| className               | string                                    |                        | Custom CSS class |
-| toolbar                 | React.ReactNode                           |                        | Custom toolbar node |
+| Prop                   | Type                                    | Default            | Description             |
+| ---------------------- | --------------------------------------- | ------------------ | ----------------------- | ----------------------- | ------------------------- | --------------- |
+| columns                | Array<{ field, headerName, sortable? }> | Required           | Column definitions      |
+| rowData                | Array<any>                              | Required           | Data rows               |
+| pagination             | boolean                                 | false              | Enable pagination       |
+| pageSize               | number                                  | rowData.length     | Rows per page           |
+| toolbarOptions         | Array<{name: string, icon?: React.ReactNode, style?: React.CSSProperties, onClick?: () => void}> | [{name:'save',...}, {name:'reset',...}, {name:'export',...}, {name:'filter',...}] | Toolbar buttons with custom config |
+| toolbarBackgroundColor | string[]                                | ['#0078efff', ...] | Toolbar button colors   |
+| toolbarTextColor       | string[]                                | ['#fff', ...]      | Toolbar text colors     |
+| selectedRowIdxColor    | string                                  | '#c8e6c9'          | Selected row color      |
+| onRowClick             | (row, idx) => void                      |                    | Row click handler       |
+| enableDragDrop         | boolean                                 | true               | Enable drag-and-drop    |
+| paginationColor        | string                                  | '#1976d2'          | Pagination button color |
+| paginationShape        | 'pill'                                  | 'square'           | 'pill'                  | Pagination button shape |
+| paginationSize         | 'sm'                                    | 'md'               | 'lg'                    | 'md'                    | Pagination button size    |
+| paginationRenderer     | Function                                |                    | Custom pagination UI    |
+| style                  | React.CSSProperties                     |                    | Custom styles           |
+| className              | string                                  |                    | Custom CSS class        |
+| toolbar                | React.ReactNode                         |                    | Custom toolbar node     |
 
 ---
 
@@ -117,8 +165,8 @@ const data = [
   rowData={data}
   toolbar={
     <div>
-      <button onClick={() => alert('Custom Save')}>Save</button>
-      <button onClick={() => alert('Custom Export')}>Export</button>
+      <button onClick={() => alert("Custom Save")}>Save</button>
+      <button onClick={() => alert("Custom Export")}>Export</button>
     </div>
   }
 />

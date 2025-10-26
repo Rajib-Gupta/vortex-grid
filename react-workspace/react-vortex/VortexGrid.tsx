@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { type GridColumn } from "../../core/Grid";
+
+export interface GridColumn {
+  field: string;
+  headerName: string;
+  sortable?: boolean;
+  filterable?: boolean;
+}
 
 export interface VortexGridProps {
   /** Pagination color (default: #1976d2) */
   paginationColor?: string;
   /** Pagination shape: 'pill' | 'square' (default: 'pill') */
-  paginationShape?: 'pill' | 'square';
+  paginationShape?: "pill" | "square";
   /** Pagination size: 'sm' | 'md' | 'lg' (default: 'md') */
-  paginationSize?: 'sm' | 'md' | 'lg';
+  paginationSize?: "sm" | "md" | "lg";
   /** Custom pagination renderer */
   paginationRenderer?: (props: {
     page: number;
@@ -24,9 +30,12 @@ export interface VortexGridProps {
   style?: React.CSSProperties;
   toolbar?: React.ReactNode;
   toolbarColor?: string;
-  toolbarOptions?: Array<"save" | "reset" | "export" | "filter">;
-  toolbarBackgroundColor?: string[];
-  toolbarTextColor?: string[];
+  toolbarOptions?: Array<{
+    name: string;
+    icon?: React.ReactNode;
+    style?: React.CSSProperties;
+    onClick?: () => void;
+  }>;
   selectedRowIdxColor?: string;
   onRowClick?: (row: any, idx: number) => void;
 }
@@ -39,31 +48,78 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
   className,
   style,
   toolbar,
-  toolbarBackgroundColor,
-  toolbarTextColor,
   toolbarOptions,
   selectedRowIdxColor,
   onRowClick,
   enableDragDrop = true,
-  paginationColor = '#1976d2',
-  paginationShape = 'pill',
-  paginationSize = 'md',
+  paginationColor = "#1976d2",
+  paginationShape = "pill",
+  paginationSize = "md",
   paginationRenderer,
 }) => {
+  console.log("rowData", rowData);
   const [selectedRowIdx, setSelectedRowIdx] = useState<number | null>(null);
   const STORAGE_KEY_ROW_ORDER = "gridkit-row-order";
   const COL_STORAGE_KEY = "gridkit-column-order";
-  const effectiveToolbarBackgroundColor = toolbarBackgroundColor ?? [
-    "#0078efff",
-    "#177c12ff",
-    "#dd3c10ff",
+
+  const effectiveToolbarOptions = toolbarOptions ?? [
+    {
+      name: "save",
+      icon: <span>Save</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #0078efff`,
+        color: "#fff",
+        background: "#0078efff",
+        fontWeight: 500,
+        cursor: "pointer",
+      },
+      onClick: undefined,
+    },
+    {
+      name: "reset",
+      icon: <span>Reset</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #177c12ff`,
+        color: "#fff",
+        background: "#177c12ff",
+        fontWeight: 500,
+        cursor: "pointer",
+      },
+      onClick: undefined,
+    },
+    {
+      name: "export",
+      icon: <span>Export</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #dd3c10ff`,
+        color: "#fff",
+        background: "#dd3c10ff",
+        fontWeight: 500,
+        cursor: "pointer",
+      },
+      onClick: undefined,
+    },
+    {
+      name: "filter",
+      icon: <span>Filter</span>,
+      style: {
+        padding: "8px 16px",
+        borderRadius: "4px",
+        border: `1px solid #555555ff`,
+        color: "#fff",
+        background: "#555555ff",
+        fontWeight: 500,
+        cursor: "pointer",
+      },
+      onClick: undefined,
+    },
   ];
-  const effectiveToolbarTextColor = toolbarTextColor ?? [
-    "#fff",
-    "#fff",
-    "#fff",
-  ];
-  const effectiveToolbarOptions = toolbarOptions ?? ["save", "reset", "export"];
 
   const initialColumnsOrder = React.useMemo(() => {
     const savedColOrder = localStorage.getItem(COL_STORAGE_KEY);
@@ -112,7 +168,7 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
   const [draggedColIdx, setDraggedColIdx] = useState<number | null>(null);
   const [currentPageSize, setCurrentPageSize] = useState<number>(
     pageSize || rowData.length
-  ); 
+  );
   // Sync columnsOrder with initialColumnsOrder when columns change or after refresh
   useEffect(() => {
     setColumnsOrder(initialColumnsOrder);
@@ -206,92 +262,65 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
                     justifyContent: "flex-end",
                   }}
                 >
-                  {effectiveToolbarOptions.includes("save") && (
-                    <button
-                      style={{
-                        padding: "8px 16px",
-                        borderRadius: "4px",
-                        border: `1px solid ${effectiveToolbarBackgroundColor[0]}`,
-                        color: effectiveToolbarTextColor[0],
-                        background: effectiveToolbarBackgroundColor[0],
-                        fontWeight: 500,
-                      }}
-                      onClick={() => {
-                        localStorage.setItem(
-                          STORAGE_KEY_ROW_ORDER,
-                          JSON.stringify(data.map((d) => d.id))
-                        );
-                        localStorage.setItem(
-                          COL_STORAGE_KEY,
-                          JSON.stringify(columnsOrder.map((c) => c.field))
-                        );
-                      }}
-                    >
-                      Save Order
-                    </button>
-                  )}
-                  {effectiveToolbarOptions.includes("reset") && (
-                    <button
-                      style={{
-                        padding: "8px 16px",
-                        borderRadius: "4px",
-                        border: `1px solid ${effectiveToolbarBackgroundColor[1]}`,
-                        color: effectiveToolbarTextColor[1],
-                        background: effectiveToolbarBackgroundColor[1],
-                        fontWeight: 500,
-                      }}
-                      onClick={() => {
-                        localStorage.removeItem(STORAGE_KEY_ROW_ORDER);
-                        localStorage.removeItem(COL_STORAGE_KEY);
-                        window.location.reload();
-                      }}
-                    >
-                      Reset Order
-                    </button>
-                  )}
-                  {effectiveToolbarOptions.includes("export") && (
-                    <button
-                      style={{
-                        padding: "8px 16px",
-                        borderRadius: "4px",
-                        border: `1px solid ${effectiveToolbarBackgroundColor[2]}`,
-                        color: effectiveToolbarTextColor[2],
-                        background: effectiveToolbarBackgroundColor[2],
-                        fontWeight: 500,
-                      }}
-                      onClick={() => {
-                        const csvRows: string[] = [];
-                        csvRows.push(
-                          columnsOrder
-                            .map((col: GridColumn) => col.headerName)
-                            .join(",")
-                        );
-                        data.forEach((row: any) => {
-                          csvRows.push(
-                            columnsOrder
-                              .map((col: GridColumn) =>
-                                JSON.stringify(row[col.field] ?? "")
-                              )
-                              .join(",")
-                          );
-                        });
-                        const csvContent = csvRows.join("\n");
-                        const blob = new Blob([csvContent], {
-                          type: "text/csv",
-                        });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = "grid-data.csv";
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
-                      }}
-                    >
-                      Export CSV
-                    </button>
-                  )}
+                  {effectiveToolbarOptions.map((option) => {
+                    return (
+                      <button
+                        style={option.style}
+                        onClick={() => {
+                          if (option.onClick) {
+                            option.onClick();
+                          } else {
+                            if (option.name === "save") {
+                              localStorage.setItem(
+                                STORAGE_KEY_ROW_ORDER,
+                                JSON.stringify(data.map((d) => d.id))
+                              );
+                              localStorage.setItem(
+                                COL_STORAGE_KEY,
+                                JSON.stringify(
+                                  columnsOrder.map((c) => c.field)
+                                )
+                              );
+                            } else if (option.name === "reset") {
+                              localStorage.removeItem(STORAGE_KEY_ROW_ORDER);
+                              localStorage.removeItem(COL_STORAGE_KEY);
+                              window.location.reload();
+                            } else if (option.name === "export") {
+                              const csvRows: string[] = [];
+                              csvRows.push(
+                                columnsOrder
+                                  .map((col: GridColumn) => col.headerName)
+                                  .join(",")
+                              );
+                              data.forEach((row: any) => {
+                                csvRows.push(
+                                  columnsOrder
+                                    .map((col: GridColumn) =>
+                                      JSON.stringify(row[col.field] ?? "")
+                                    )
+                                    .join(",")
+                                );
+                              });
+                              const csvContent = csvRows.join("\n");
+                              const blob = new Blob([csvContent], {
+                                type: "text/csv",
+                              });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement("a");
+                              a.href = url;
+                              a.download = "grid-data.csv";
+                              document.body.appendChild(a);
+                              a.click();
+                              document.body.removeChild(a);
+                              URL.revokeObjectURL(url);
+                            }
+                          }
+                        }}
+                      >
+                        {option.icon ? option.icon : option.name}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </td>
@@ -302,7 +331,9 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
                 key={col.field}
                 onClick={() => col.sortable && handleSort(col.field)}
                 draggable={enableDragDrop}
-                onDragStart={enableDragDrop ? () => onColDragStart(colIdx) : undefined}
+                onDragStart={
+                  enableDragDrop ? () => onColDragStart(colIdx) : undefined
+                }
                 onDragOver={enableDragDrop ? onColDragOver : undefined}
                 onDrop={enableDragDrop ? () => onColDrop(colIdx) : undefined}
                 style={{
@@ -322,7 +353,7 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
                     }}
                   >
                     {sort?.field === col.field
-                      ? sort.direction === "asc"
+                      ? sort?.direction === "asc"
                         ? "↑"
                         : "↓"
                       : "⇅"}
@@ -368,30 +399,49 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
             </tr>
           ))}
         </tbody>
-        {pagination && (
+        {pagination && rowData.length > (currentPageSize || rowData.length) && (
           <tfoot className="pagination">
             <tr>
-              <td colSpan={columns.length} style={{ textAlign: "center", padding: "16px 0" }}>
+              <td
+                colSpan={columns.length}
+                style={{ textAlign: "center", padding: "16px 0" }}
+              >
                 {paginationRenderer ? (
                   paginationRenderer({
                     page,
-                    pageCount: Math.ceil(rowData.length / (currentPageSize || 1)),
+                    pageCount: Math.ceil(
+                      rowData.length / (currentPageSize || 1)
+                    ),
                     setPage,
                   })
                 ) : (
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
                     <button
                       style={{
                         padding:
-                          paginationSize === 'lg' ? '10px 20px' : paginationSize === 'sm' ? '4px 8px' : '7px 14px',
-                        borderRadius: paginationShape === 'pill' ? '999px' : '4px',
+                          paginationSize === "lg"
+                            ? "10px 20px"
+                            : paginationSize === "sm"
+                            ? "4px 8px"
+                            : "7px 14px",
+                        borderRadius:
+                          paginationShape === "pill" ? "999px" : "4px",
                         border: `1px solid ${paginationColor}`,
-                        background: page > 1 ? paginationColor : '#e0e0e0',
-                        color: page > 1 ? '#fff' : '#888',
-                        cursor: page > 1 ? 'pointer' : 'not-allowed',
+                        background: page > 1 ? paginationColor : "#e0e0e0",
+                        color: page > 1 ? "#fff" : "#888",
+                        cursor: page > 1 ? "pointer" : "not-allowed",
                         fontWeight: 500,
-                        transition: 'all 0.2s',
-                        boxShadow: page > 1 ? '0 2px 8px rgba(25, 118, 210, 0.08)' : undefined,
+                        transition: "all 0.2s",
+                        boxShadow:
+                          page > 1
+                            ? "0 2px 8px rgba(25, 118, 210, 0.08)"
+                            : undefined,
                       }}
                       disabled={page <= 1}
                       onClick={() => {
@@ -402,44 +452,91 @@ export const VortexGridReact: React.FC<VortexGridProps> = ({
                       &#8592; Prev
                     </button>
                     {/* Numbered page buttons */}
-                    {Array.from({ length: Math.ceil(rowData.length / (currentPageSize || 1)) }, (_, i) => (
-                      <button
-                        key={i + 1}
-                        style={{
-                          padding:
-                            paginationSize === 'lg' ? '10px 20px' : paginationSize === 'sm' ? '4px 8px' : '7px 14px',
-                          borderRadius: paginationShape === 'pill' ? '999px' : '4px',
-                          border: page === i + 1 ? `2px solid ${paginationColor}` : `1px solid #bdbdbd`,
-                          background: page === i + 1 ? paginationColor : '#fff',
-                          color: page === i + 1 ? '#fff' : '#333',
-                          fontWeight: page === i + 1 ? 700 : 500,
-                          margin: '0 2px',
-                          cursor: 'pointer',
-                          boxShadow: page === i + 1 ? `0 2px 8px ${paginationColor}33` : undefined,
-                          transition: 'all 0.2s',
-                        }}
-                        onClick={() => setPage(i + 1)}
-                        aria-current={page === i + 1 ? 'page' : undefined}
-                      >
-                        {i + 1}
-                      </button>
-                    ))}
+                    {Array.from(
+                      {
+                        length: Math.ceil(
+                          rowData.length / (currentPageSize || 1)
+                        ),
+                      },
+                      (_, i) => (
+                        <button
+                          key={i + 1}
+                          style={{
+                            padding:
+                              paginationSize === "lg"
+                                ? "10px 20px"
+                                : paginationSize === "sm"
+                                ? "4px 8px"
+                                : "7px 14px",
+                            borderRadius:
+                              paginationShape === "pill" ? "999px" : "4px",
+                            border:
+                              page === i + 1
+                                ? `2px solid ${paginationColor}`
+                                : `1px solid #bdbdbd`,
+                            background:
+                              page === i + 1 ? paginationColor : "#fff",
+                            color: page === i + 1 ? "#fff" : "#333",
+                            fontWeight: page === i + 1 ? 700 : 500,
+                            margin: "0 2px",
+                            cursor: "pointer",
+                            boxShadow:
+                              page === i + 1
+                                ? `0 2px 8px ${paginationColor}33`
+                                : undefined,
+                            transition: "all 0.2s",
+                          }}
+                          onClick={() => setPage(i + 1)}
+                          aria-current={page === i + 1 ? "page" : undefined}
+                        >
+                          {i + 1}
+                        </button>
+                      )
+                    )}
                     <button
                       style={{
                         padding:
-                          paginationSize === 'lg' ? '10px 20px' : paginationSize === 'sm' ? '4px 8px' : '7px 14px',
-                        borderRadius: paginationShape === 'pill' ? '999px' : '4px',
+                          paginationSize === "lg"
+                            ? "10px 20px"
+                            : paginationSize === "sm"
+                            ? "4px 8px"
+                            : "7px 14px",
+                        borderRadius:
+                          paginationShape === "pill" ? "999px" : "4px",
                         border: `1px solid ${paginationColor}`,
-                        background: page < Math.ceil(rowData.length / (currentPageSize || 1)) ? paginationColor : '#e0e0e0',
-                        color: page < Math.ceil(rowData.length / (currentPageSize || 1)) ? '#fff' : '#888',
-                        cursor: page < Math.ceil(rowData.length / (currentPageSize || 1)) ? 'pointer' : 'not-allowed',
+                        background:
+                          page <
+                          Math.ceil(rowData.length / (currentPageSize || 1))
+                            ? paginationColor
+                            : "#e0e0e0",
+                        color:
+                          page <
+                          Math.ceil(rowData.length / (currentPageSize || 1))
+                            ? "#fff"
+                            : "#888",
+                        cursor:
+                          page <
+                          Math.ceil(rowData.length / (currentPageSize || 1))
+                            ? "pointer"
+                            : "not-allowed",
                         fontWeight: 500,
-                        transition: 'all 0.2s',
-                        boxShadow: page < Math.ceil(rowData.length / (currentPageSize || 1)) ? '0 2px 8px rgba(25, 118, 210, 0.08)' : undefined,
+                        transition: "all 0.2s",
+                        boxShadow:
+                          page <
+                          Math.ceil(rowData.length / (currentPageSize || 1))
+                            ? "0 2px 8px rgba(25, 118, 210, 0.08)"
+                            : undefined,
                       }}
-                      disabled={page >= Math.ceil(rowData.length / (currentPageSize || 1))}
+                      disabled={
+                        page >=
+                        Math.ceil(rowData.length / (currentPageSize || 1))
+                      }
                       onClick={() => {
-                        if (page < Math.ceil(rowData.length / (currentPageSize || 1))) setPage(page + 1);
+                        if (
+                          page <
+                          Math.ceil(rowData.length / (currentPageSize || 1))
+                        )
+                          setPage(page + 1);
                       }}
                       aria-label="Next page"
                     >
