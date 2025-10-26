@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { type GridColumn } from "../core/Grid";
+import { type GridColumn } from "../../core/Grid";
 
 export interface VortexGridProps {
   /** Pagination color (default: #1976d2) */
@@ -31,7 +31,7 @@ export interface VortexGridProps {
   onRowClick?: (row: any, idx: number) => void;
 }
 
-export const VortexGrid: React.FC<VortexGridProps> = ({
+export const VortexGridReact: React.FC<VortexGridProps> = ({
   columns,
   rowData,
   pagination,

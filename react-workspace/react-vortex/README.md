@@ -1,5 +1,5 @@
 
-# vortexgrid
+# vortexgrid-react
 
 VortexGrid is a modern, highly customizable React data grid component designed for advanced data display and manipulation. It supports sorting, pagination, drag-and-drop, persistent order, and a flexible toolbar, making it ideal for dashboards, admin panels, and any data-driven UI.
 
@@ -23,7 +23,7 @@ VortexGrid is a modern, highly customizable React data grid component designed f
 ## Installation
 
 ```sh
-npm install vortexgrid
+npm install vortexgrid-react
 ```
 
 ---
@@ -45,7 +45,7 @@ const data = [
   { id: 2, name: 'Bob', email: 'bob@example.com' }
 ];
 
-<VortexGrid
+<VortexGridReact
   columns={columns}
   rowData={data}
   pagination
@@ -112,7 +112,7 @@ const data = [
 ## Example: Custom Toolbar
 
 ```tsx
-<VortexGrid
+<VortexGridReact
   columns={columns}
   rowData={data}
   toolbar={

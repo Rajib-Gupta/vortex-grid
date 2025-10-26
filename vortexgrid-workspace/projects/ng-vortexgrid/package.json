@@ -1,6 +1,6 @@
 {
   "name": "ng-vortexgrid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^19.2.0",
     "@angular/core": "^19.2.0"
@@ -8,5 +8,29 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
+  "description": "A modern, customizable, cross-framework data grid library for React, Angular, Vue, and more. Features sorting, pagination, drag-and-drop, and persistent order.",
+  "author": "Rajib Gupta",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rajib-Gupta/grid-kit.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "grid",
+    "datatable",
+    "angular grid",
+    "drag-and-drop",
+    "table",
+    "angular table",
+    "export excel",
+    "vue",
+    "drag-and-drop",
+    "pagination",
+    "sortable",
+    "customizable",
+    "library"
+  ],
   "sideEffects": false
 }

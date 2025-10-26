@@ -1,5 +1,5 @@
 {
-  "name": "vortexgrid",
+  "name": "vortexgrid-react",
   "version": "1.1.1",
   "description": "A modern, customizable, cross-framework data grid library for React, Angular, Vue, and more. Features sorting, pagination, drag-and-drop, and persistent order.",
   "author": "Rajib Gupta",
