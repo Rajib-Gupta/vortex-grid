@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VortexgridService } from './vortexgrid.service';
+import { NgVortexgridService } from './ng-vortexgrid.service';
 
-describe('VortexgridService', () => {
-  let service: VortexgridService;
+describe('NgVortexgridService', () => {
+  let service: NgVortexgridService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(VortexgridService);
+    service = TestBed.inject(NgVortexgridService);
   });
 
   it('should be created', () => {

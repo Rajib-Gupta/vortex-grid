@@ -1,0 +1,37 @@
+/* Add your grid styles here. Example: */
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.vortex-grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vortex-grid th, .vortex-grid td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.vortex-grid th {
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.vortex-grid tr.selected {
+  background: #ffe082;
+}
+
+.vortex-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.vortex-pagination {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}

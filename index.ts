@@ -1,2 +1,2 @@
-export { VortexGrid } from './react-adapter/VortexGrid';
-export { VortexGridComponent } from './angular-adapter/vortex-grid.component';
+export { VortexGrid } from './react-vortex/VortexGrid';
+export { VortexGridTableComponent } from './vortexgrid-workspace/projects/ng-vortexgrid/src/lib/ng-vortexgrid.component';

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VortexgridComponent } from './vortexgrid.component';
+import { VortexGridTableComponent } from './ng-vortexgrid.component';
 
-describe('VortexgridComponent', () => {
-  let component: VortexgridComponent;
-  let fixture: ComponentFixture<VortexgridComponent>;
+describe('NgVortexGridTableComponent', () => {
+  let component: VortexGridTableComponent;
+  let fixture: ComponentFixture<VortexGridTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VortexgridComponent]
+      imports: [VortexGridTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(VortexgridComponent);
+    fixture = TestBed.createComponent(VortexGridTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

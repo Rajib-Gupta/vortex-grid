@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "vortexgrid": {
+    "ng-vortexgrid": {
       "projectType": "library",
-      "root": "projects/vortexgrid",
-      "sourceRoot": "projects/vortexgrid/src",
+      "root": "projects/ng-vortexgrid",
+      "sourceRoot": "projects/ng-vortexgrid/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/vortexgrid/ng-package.json"
+            "project": "projects/ng-vortexgrid/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/vortexgrid/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ng-vortexgrid/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/vortexgrid/tsconfig.lib.json"
+              "tsConfig": "projects/ng-vortexgrid/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,7 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/vortexgrid/tsconfig.spec.json",
+            "tsConfig": "projects/ng-vortexgrid/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -38,6 +38,6 @@
     }
   },
   "cli": {
-    "analytics": "0fce3015-fb7c-46f3-b09f-d920249af0f0"
+    "analytics": "fd0fb29f-6212-4348-97d8-463b4863f2a6"
   }
 }

@@ -8,10 +8,11 @@ export interface GridColumn {
 
 @Component({
   selector: 'vortex-grid',
-  templateUrl: './vortex-grid.component.html',
-  styleUrls: ['./vortex-grid.component.css']
+  templateUrl: './ng-vortexgrid.component.html',
+  styleUrls: ['./ng-vortexgrid.component.css'],
+  standalone: false
 })
-export class VortexGridComponent {
+export class VortexGridTableComponent {
   @Input() columns: GridColumn[] = [];
   @Input() rowData: any[] = [];
   @Input() pagination: boolean = false;
@@ -43,6 +44,21 @@ export class VortexGridComponent {
     const endIdx = startIdx + this.currentPageSize;
     return this.rowData.slice(startIdx, endIdx);
   }
+      getTotalPages(): number {
+        return Math.ceil(this.rowData.length / this.currentPageSize);
+      }
+
+      getPagesArray(): number[] {
+        return Array(this.getTotalPages()).fill(0).map((_, i) => i + 1);
+      }
+
+      isLastPage(): boolean {
+        return this.page >= this.getTotalPages();
+      }
+
+      isFirstPage(): boolean {
+        return this.page <= 1;
+      }
 
   onRowClick(row: any, idx: number) {
     this.selectedRowIdx = idx;
